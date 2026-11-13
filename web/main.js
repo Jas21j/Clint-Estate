@@ -59,6 +59,47 @@ const chapters = [
 story.innerHTML = chapters.map((c) => `<section class="chapter" id="${c.id}" data-chapter>${c.html}</section>`).join('');
 const chapterEls = [...story.querySelectorAll('[data-chapter]')];
 
+// ------------------------------------------------------- phone caption card
+// On narrow screens the story column is hidden (its sections stay as invisible scroll spacers so
+// scrolling still drives the camera) and the current section shows in a card under the model.
+let capIndex = -1;
+function setCaption(i) {
+  if (i === capIndex) return;
+  capIndex = i;
+  const el = chapterEls[i];
+  $('capEyebrow').textContent = `${String(i + 1).padStart(2, '0')} / ${chapterEls.length} · ${el.querySelector('.eyebrow').textContent}`;
+  $('capTitle').innerHTML = el.querySelector('h1, h2').innerHTML.replace(/<br\s*\/?>/g, ' ');
+  $('capBody').innerHTML = el.innerHTML;
+  $('capPrev').disabled = i === 0;
+  $('capNext').disabled = i === chapterEls.length - 1;
+}
+function setCaptionOpen(open) {
+  $('capToggle').setAttribute('aria-expanded', String(open));
+  $('capBody').hidden = !open;
+  $('capMore').textContent = open ? 'Hide' : 'Details';
+  document.body.classList.toggle('caption-open', open);
+}
+let capTarget = null;   // section a prev/next tap is still smooth-scrolling towards
+function goToChapter(i) {
+  capTarget = i;
+  // Land a little way into the section so the camera has arrived and is holding still.
+  const r = chapterEls[i].getBoundingClientRect();
+  scrollTo({ top: scrollY + r.top - innerHeight * 0.5 + r.height * 0.2 });
+}
+addEventListener('scrollend', () => { capTarget = null; });
+const step = (d) => goToChapter(clamp((capTarget ?? capIndex) + d, 0, chapterEls.length - 1));
+$('capToggle').addEventListener('click', () => setCaptionOpen($('capBody').hidden));
+$('capPrev').addEventListener('click', () => step(-1));
+$('capNext').addEventListener('click', () => step(1));
+$('capBody').addEventListener('click', (e) => {
+  const a = e.target.closest('a[href^="#"]');
+  if (!a) return;
+  e.preventDefault();
+  goToChapter(chapterEls.findIndex((c) => `#${c.id}` === a.getAttribute('href')));
+});
+if (matchMedia('(pointer: coarse)').matches) $('dockHint').textContent = 'Drag to orbit · pinch to zoom · two-finger drag to pan';
+setCaption(0);
+
 // ---------------------------------------------------------------- 3D set-up
 let renderer;
 try {
@@ -173,10 +214,10 @@ let exploring = false, controls = null, fly = null, dirty = true, last = perform
 function fromScroll() {
   if (exploring) return;
   // A chapter becomes current when its top crosses this line (middle of the readable area).
-  const floor = innerWidth <= 860 ? stage.getBoundingClientRect().bottom : 0;
-  const anchor = floor + (innerHeight - floor) * 0.5;
+  const anchor = innerHeight * 0.5;
   let i = 0;
   for (let k = 0; k < chapterEls.length; k++) if (chapterEls[k].getBoundingClientRect().top <= anchor) i = k;
+  setCaption(i);
   const rect = chapterEls[i].getBoundingClientRect();
   const frac = clamp((anchor - rect.top) / rect.height);
   const a = chapters[i], b = chapters[Math.min(i + 1, chapters.length - 1)];
@@ -302,7 +343,8 @@ function buildDock() {
 function setExploring(on) {
   exploring = on;
   $('exploreBtn').setAttribute('aria-pressed', String(on));
-  $('exploreBtn').textContent = on ? 'Back to the story' : 'Explore freely';
+  $('exploreBtn').textContent = on ? 'Back to story' : 'Explore';
+  if (on) setCaptionOpen(false);
   if (on) savedScroll = scrollY;
   document.body.classList.toggle('exploring', on);
   $('dock').hidden = !on;

@@ -25,7 +25,7 @@
         <button type="button" data-furniture="on" aria-pressed="true">Furnished</button>
         <button type="button" data-furniture="off" aria-pressed="false">Empty</button>
       </div>
-      <button type="button" class="ghost" id="exploreBtn" aria-pressed="false">Explore freely</button>
+      <button type="button" class="ghost" id="exploreBtn" aria-pressed="false">Explore</button>
     </div>
   </header>
 
@@ -43,8 +43,20 @@
       <nav class="dock" id="dock" aria-label="Explore the building" hidden>
         <div class="dock__row" id="dockLevels"></div>
         <div class="dock__row" id="dockUnits"></div>
-        <p class="dock__hint">Drag to orbit · scroll to zoom · right-drag to pan</p>
+        <p class="dock__hint" id="dockHint">Drag to orbit · scroll to zoom · right-drag to pan</p>
       </nav>
+      <aside class="caption" id="caption" aria-label="Current section">
+        <div class="caption__head">
+          <button type="button" class="caption__step" id="capPrev" aria-label="Previous section">‹</button>
+          <button type="button" class="caption__title" id="capToggle" aria-expanded="false" aria-controls="capBody">
+            <span class="caption__eyebrow" id="capEyebrow"></span>
+            <b id="capTitle"></b>
+            <span class="caption__more" id="capMore">Details</span>
+          </button>
+          <button type="button" class="caption__step" id="capNext" aria-label="Next section">›</button>
+        </div>
+        <div class="caption__body" id="capBody" hidden></div>
+      </aside>
       <div class="loader" id="loader"><p>Raising the walls</p><i><b id="loadBar"></b></i></div>
       <p class="fail" id="fail" hidden>This page draws the building in 3D and needs WebGL. The apartment details are still listed alongside.</p>
     </div>
