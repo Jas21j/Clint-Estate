@@ -1,0 +1,13 @@
+{
+  "_note": "Which rooms belong to which apartment. Each unit lists boxes [x0, y0, x1, y1] in metres on the plan; a room joins the unit whose box contains its label. Edit freely.",
+  "units": [
+    {"id": "U1", "level": "ground", "name": "Unit 1", "type": "2 bedroom", "color": "#4F9DDE", "boxes": [[2.4, 12.9, 16.0, 19.3], [6.9, 9.35, 16.0, 12.9]]},
+    {"id": "U2", "level": "ground", "name": "Unit 2", "type": "1 bedroom", "color": "#9B6BDF", "boxes": [[0.0, 0.0, 9.65, 9.0]]},
+    {"id": "U3", "level": "ground", "name": "Unit 3", "type": "1 bedroom", "color": "#D9A21B", "boxes": [[9.65, -2.0, 20.15, 9.0]]},
+    {"id": "U4", "level": "ground", "name": "Unit 4", "type": "1 bedroom", "color": "#D94FB4", "boxes": [[20.15, -2.0, 28.5, 9.0]]},
+    {"id": "U5", "level": "first", "name": "Unit 5", "type": "2 bedroom", "color": "#3FB56B", "boxes": [[2.4, 12.9, 16.0, 19.3], [6.9, 9.35, 16.0, 12.9]]},
+    {"id": "U6", "level": "first", "name": "Unit 6", "type": "1 bedroom", "color": "#22B8C7", "boxes": [[0.0, -1.0, 9.65, 8.45]]},
+    {"id": "U7", "level": "first", "name": "Unit 7", "type": "1 bedroom", "color": "#E3B505", "boxes": [[15.0, 2.35, 24.3, 9.0]]},
+    {"id": "U8", "level": "first", "name": "Unit 8", "type": "1 bedroom", "color": "#E0533F", "boxes": [[24.3, 2.35, 33.95, 9.0]]}
+  ]
+}

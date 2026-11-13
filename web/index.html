@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Lot 201 Oxford · 3D walkthrough</title>
+  <meta name="description" content="Scroll through the proposed residential building at Lot 201, Oxford, Manchester: eight apartments on two floors, built in 3D from the floor plans." />
+  <meta name="robots" content="noindex" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=DM+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <script type="importmap">
+    { "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+    } }
+  </script>
+</head>
+<body>
+  <header class="bar">
+    <a class="bar__mark" href="#top">Lot 201 <span>Oxford · Manchester</span></a>
+    <div class="bar__tools">
+      <div class="switch" role="group" aria-label="Furniture">
+        <button type="button" data-furniture="on" aria-pressed="true">Furnished</button>
+        <button type="button" data-furniture="off" aria-pressed="false">Empty</button>
+      </div>
+      <button type="button" class="ghost" id="exploreBtn" aria-pressed="false">Explore freely</button>
+    </div>
+  </header>
+
+  <main class="layout" id="top">
+    <div class="story" id="story"></div>
+
+    <div class="stage" id="stage">
+      <canvas id="gl" aria-hidden="true"></canvas>
+      <div class="labels" id="labels" aria-hidden="true"></div>
+      <div class="sheet" aria-hidden="true">
+        <div><span>Sheet</span><b>3D-01</b></div>
+        <div><span>View</span><b id="sheetView">Exterior</b></div>
+        <div><span>Source</span><b>Plans 003 · 004</b></div>
+      </div>
+      <nav class="dock" id="dock" aria-label="Explore the building" hidden>
+        <div class="dock__row" id="dockLevels"></div>
+        <div class="dock__row" id="dockUnits"></div>
+        <p class="dock__hint">Drag to orbit · scroll to zoom · right-drag to pan</p>
+      </nav>
+      <div class="loader" id="loader"><p>Raising the walls</p><i><b id="loadBar"></b></i></div>
+      <p class="fail" id="fail" hidden>This page draws the building in 3D and needs WebGL. The apartment details are still listed alongside.</p>
+    </div>
+  </main>
+
+  <script type="module" src="main.js"></script>
+</body>
+</html>
