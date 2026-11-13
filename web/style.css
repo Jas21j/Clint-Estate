@@ -143,6 +143,10 @@ body.exploring { overflow: hidden; }
   body.exploring .stage { bottom: 0; height: auto; }
   .story { visibility: hidden; padding: 0; }
   .chapter { height: 85svh; min-height: 0; padding: 0; overflow: hidden; border: 0; }
+  /* One swipe = one section. The margin lands each section where the camera holds still
+     (its top 20% of the way past the mid-screen anchor that main.js reads). */
+  html:not(:has(body.exploring)) { scroll-snap-type: y mandatory; }
+  .chapter { scroll-snap-align: start; scroll-snap-stop: always; scroll-margin-top: calc(50svh - 17svh); }
   .chapter:first-child { min-height: 0; }
   /* enough room after the last section for it to become current */
   .story::after { content: ""; display: block; height: 40svh; }

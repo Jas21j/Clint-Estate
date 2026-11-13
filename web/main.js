@@ -347,6 +347,7 @@ function setExploring(on) {
   if (on) setCaptionOpen(false);
   if (on) savedScroll = scrollY;
   document.body.classList.toggle('exploring', on);
+  canvas.style.touchAction = '';
   $('dock').hidden = !on;
   if (on) {
     controls.target.copy(cur.tgt);
@@ -380,6 +381,9 @@ new GLTFLoader().load('assets/clint.glb', (gltf) => {
   controls = new OrbitControls(camera, canvas);
   Object.assign(controls, { enabled: false, enableDamping: true, dampingFactor: 0.08, maxPolarAngle: Math.PI * 0.49, minDistance: 6, maxDistance: 120 });
   controls.addEventListener('change', () => { dirty = true; });
+  // OrbitControls sets touch-action:none on the canvas, which swallows swipes on phones where the
+  // model fills the screen. Hand it back to the stylesheet (pan-y, or none while exploring).
+  canvas.style.touchAction = '';
   buildDock();
 
   addEventListener('scroll', fromScroll, { passive: true });
